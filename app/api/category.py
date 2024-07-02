@@ -1,9 +1,12 @@
 from sqlalchemy.orm import Session
-from models import Category
-from schemas import CategoryCreate
+from app.models.category import Category
+from app.schemas import CategoryCreate
 
-def get_categories(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(Category).offset(skip).limit(limit).all()
+def get_categories(db: Session):
+    return db.query(Category).all()
+
+def get_category(db: Session, category_id: int):
+    return db.query(Category).filter(Category.id == category_id).first()
 
 def create_category(db: Session, category: CategoryCreate):
     db_category = Category(**category.dict())
